@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 workplace 내에 .env 파일을 만들어 Database의 정보생성
 본 프로젝트에서는 server 내에 Database를 이용하였고, 엔진으로는 MySQL로 구성하였다.  
-<(db)이미지>
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/db.PNG></img>
 
 모델의 가중치를 weight 폴더에 넣어 프로젝트 폴더 내로 옮긴다.  
 모델의 weight들은 github 특성 상 용량이 제한되어 누락되어있다.  
@@ -38,14 +38,14 @@ python app.py
 ## Fast-RCNN && LSTM
 Keypoint와 Category 분류를 위한 Fast-RCNN 모델은 다음과 같은 출력을 가진다.  
 시각화한 예시.  
-<(rcnn_result)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/fast_rcnn_result.png></img>  
   
 검출된 정보를 바탕으로 고양이, 강아지에 따라 행동을 분류하는 LSTM 모델은 다음과 같은 출력을 가진다.  
 시각화한 예시  
-<(lstm_result)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/lstm_result.png></img>  
 
 ## Structure
-<(structure)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/structure.png></img>  
 프로젝트의 구조도는 위와 같다.  
   
 핵심은 홈캠의 프레임을 API로 제공하여 스트리밍하고, 추가적으로 홈캠의 영상을 준비한 모델들의 입력으로 사용하여 반려동물의 행동을 인식하는 것이다.  
@@ -53,9 +53,9 @@ Database로는 MySQL을 사용하였고, 모델의 결과를 저장한 뒤에 Cl
 
 ## API Document
 프로젝트의 결과로 제공할 수 있는 API는 다음 명세와 같다.  
-<(api1)이미지>  
-<(api2)이미지>  
-<(api3)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/api1.PNG></img>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/api2.PNG></img>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/api3.PNG></img>  
   
 API Document link: https://documenter.getpostman.com/view/15695216/2s93JzMLfV  
 
@@ -65,10 +65,10 @@ API Document link: https://documenter.getpostman.com/view/15695216/2s93JzMLfV
 
 비디오를 스트리밍하는 속도와 준비한 Fast-RCNN 모델의 처리 속도 차이가 발생하였다. Fast-RCNN 모델의 속도가 스트리밍보다 현저히 느려 스트리밍되는 동영상에서 프레임 드랍이나 재생속도에 문제가 발생하였다.  
 이를 해결하기 위한 방안으로 비디오를 스트리밍하는 동작과 모델의 영상 처리 동작을 스레드로 구성하여 실행하였다.  
-<(thread_t)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/thread_t.png></img>  
  
 이 때 비디오 스레드에 맞추어 홈캠이 동작하므로 모델은 한 동작이 끝날 때마다 비디오 스레드의 영상 데이터를 참조한다. 두 동작의 속도 차이만큼 누락되는 프레임 데이터들이 존재한다. 이를 해결하기 위해 앞서 프로젝트에서 구현한 자료구조를 사용한다.  
-<(dataqueue)이미지>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/dataqueue.png></img>  
 최초에 Queue에 삽입하는 데이터 수를 6개에서 두 동작의 처리속도에 따라 유동적으로 조작하여 두 동장의 처리 속도를 보장한다.  
 추가로 모델이 놓치는 프레임이 존재하여 모델의 성능에 영향이 갈 수 있어 테스트를 진행하였으나 1초마다 특정 수의 프레임의 평균이 5개의 시퀀스로 LSTM 모델의 입력으로 들어가는 상황이기에 큰 영향이 생기지 않았다.  
 </details>
@@ -81,5 +81,5 @@ API Document link: https://documenter.getpostman.com/view/15695216/2s93JzMLfV
 </details>
 
 ## Produced by 푸루주투
-<img src=https://github.com/YUYUJIN/animalPoseTrain/blob/main/images/logo.png style="width:100px; height:100px;"></img>  
+<img src=https://github.com/YUYUJIN/animalPoseAPI/blob/main/pictures/logo.png style="width:100px; height:100px;"></img>  
 team. 푸루주투 
