@@ -2,10 +2,8 @@ from flask import Flask, render_template, Response,jsonify,request,send_from_dir
 from flask_cors import CORS
 import cv2
 import os
-import numpy as np
-import time
-import datetime
 import sys
+import datetime
 from module.model import LRModel
 from module.thread import CamThread,PoseThread
 from setDB import Database,label_dict
@@ -62,16 +60,6 @@ def video_stop():
     response={'message':'video stoped'}
     return jsonify(response),200
 
-
-# @app.route("/api",methods=['GET','POST','DELETE'])
-# def api():
-#     if request.method=='POST':
-#         target=request.get_json()
-    
-#     response={'massage': 'success'}
-    
-#     return jsonify(response), 200
-
 @app.route('/image/<filename>')
 def get_image(filename):
     return send_from_directory('./image', filename)
@@ -114,13 +102,13 @@ def returnPoss():
 
 if __name__ == '__main__':
     load_dotenv()
-    db=Database(host=os.environ.get('HOST'),port=os.environ.get('PORT'),user=os.environ.get('USERNAME'),password=os.environ.get('PASSWARD'),db_name=os.environ.get('DATABASENAME'))
+    db=Database(host=os.environ.get('HOST'),port=int(os.environ.get('PORT')),user=os.environ.get('USERNAME'),password=os.environ.get('PASSWARD'),db_name=os.environ.get('DATABASENAME'))
     frame=None
     flag=False
     model=LRModel(RCNN_weight='./weight/keypointsrcnn_weights_250000.pth',
               LSTM_weight_cat='./weight\lstm_weights_best_cat.pth',
               LSTM_weight_dog='./weight\lstm_weights_best_dog.pth')
-    cam=CamThread('./cat_cam1.mp4')
+    cam=CamThread('./test.mp4')
     #cam=CamThread('./dogsample2.mp4')
     cam.daemon=True
     pose=PoseThread(model,db)

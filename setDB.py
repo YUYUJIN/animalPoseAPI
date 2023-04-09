@@ -7,6 +7,7 @@ label_dict={
 
 class Database:
     def __init__(self,host,port,user,password,db_name):
+        print(host)
         # MySQL Connection 연결
         self.connect = pymysql.connect(host=host,
                                        port=port,
